@@ -1,0 +1,427 @@
+<!---<script src=“https://code.angularjs.org/1.7.8/angular-route.js”></script>-->
+<!doctype html>
+<html lang="en" ng-app="app">
+
+
+<title>
+</title>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://code.angularjs.org/1.6.0/angular.min.js"></script>
+    <script src="https://code.angularjs.org/1.6.0/angular-messages.min.js"></script>
+    <script src="https://code.angularjs.org/1.6.0/angular-resource.min.js"></script>
+    <script src="https://code.angularjs.org/1.6.0/angular-cookies.min.js"></script>
+    <script src="https://code.angularjs.org/1.6.0/angular-animate.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <script src="app.js"></script>
+    <script src="top_user_panel.js"></script>
+    <script src="points.js"></script>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" ng-controller="top_user_panel" ng-click="setPage(0)" style="color: #FFFFFF">Neapol</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+            </ul>
+            <div class="user_actions" ng-controller="top_user_panel" style="float: right">
+                <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex" ng-hide="showLogin">
+                    <li class="nav-login show">
+                        <div class="btn-group dropleft">
+                            <button type="button" class="btn btn-secondary dropdown-toggle sharp-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Login
+                            </button>
+                            <div class="dropdown-menu" id="login_form" style="width: 250px; border-radius: 5px; border-color: #343A40">
+                                <form name="login-form" role="form" style="width: 90%; margin: 0 auto;">
+                                    <div class="form-group" style="text-align: center; font-size: 20px">
+                                        Login
+                                        </br>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" ng-model="username" class="form-control" name="login_usr" placeholder="Username" />
+                                    </div>
+                                    <div class="form-group" style="align-content: center">
+                                        <input type="password" ng-model="password" class="form-control" id="login_pass" placeholder="Password" style="width:90% auto">
+                                    </div>
+                                    </br>
+                                    <!----
+                                    <div class="form-group" style="align-content: center" ng-hide="true">
+                                        <button id="passwordRecovery" class="btn btn-link" ng-model="passwordRecovery"
+                                            ng-click="createPasswordRecovery($event)">forgot my password</button>
+                                    </div>
+                                    -->
+                                    <hr>
+                                    <button type="submit" ng-click="login()" class="btn btn-secondary sharp-button" style="align-self: center;">Login</button>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-register show">
+                        <button type="button" class="btn btn-secondary sharp-button" ng-click="setPage(1)">
+                            Register
+                        </button>
+                    </li>
+                </ul>
+                <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex" ng-hide="!showLogin">
+                    <li class="nav-login show">
+                        <div class="btn-group dropleft">
+                            <button type="button" class="btn btn-secondary dropdown-toggle sharp-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Hello, {{username}}
+                            </button>
+                            <div class="dropdown-menu" id="login_form" style="width: 250px; border-radius: 5px; border-color: #343A40">
+                                <div class="form-group" style="text-align: center; font-size: 20px">
+                                    Profile
+                                    </br>
+                                </div>
+                                <a class="dropdown-item" ng-controller="top_user_panel" ng-click="setPage(2)">Favorites</a>
+
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</head>
+</br>
+
+<body>
+    <!--!>!>!>!>!>!>!>!>!>!>-->
+
+
+    <!-------------------------------------register page------------------------------------->
+    <div ng-controller="top_user_panel" ng-show="showRegister">
+        <div class="item" id="register_form" style="width: 700px;margin:0 auto; height: auto; border-radius: 5px; border-color: #343A40">
+            <form name="registerForm" ng-submit="submit()" novalidate style="width: 90%; margin: 0 auto;">
+                </br>
+                </br>
+                </br>
+                <div class="form-group" style="text-align: center; font-size: 20px">
+                    Register
+                    </br>
+                    <hr>
+                </div>
+                <div class="form-group" style="align-content: center">
+                    <input name="regName" type="text" class="form-control" placeholder="Name" ng-model="regName" required ng-minlength="2" style="width:90% auto">
+                    <span ng-show="registerForm.regName.$error.required  && registerForm.regName.$dirty">This is
+                        required! </span>
+                    <span ng-show="registerForm.regName.$error.minlength  && registerForm.regName.$dirty">Minimum length
+                        is 2 </span>
+                </div>
+
+                <div class="form-group" style="align-content: center">
+                    <input name="regLastName" type="text" class="form-control" placeholder="Last Name" ng-model="regLastName" required ng-minlength="2" style="width:90% auto">
+                    <span ng-show="registerForm.regLastName.$error.required && registerForm.regLastName.$dirty">This is
+                        required! </span>
+                    <span ng-show="registerForm.regLastName.$error.minlength && registerForm.regLastName.$dirty">Minimum
+                        length is 2 </span>
+                </div>
+
+                <div class="form-group" style="align-content: center">
+                    <input name="regCity" type="text" class="form-control" placeholder="City" ng-model="regCity" required ng-minlength="2" style="width:90% auto">
+                    <span ng-show="registerForm.regCity.$error.required && registerForm.regCity.$dirty">This is
+                        required! </span>
+                    <span ng-show="registerForm.regCity.$error.minlength && registerForm.regCity.$dirty">Minimum length
+                        is 2 </span>
+                </div>
+
+                <div class="form-group" style="align-content: center">
+                    <select name="regCountry" class="form-control" ng-model="regCountry" required>
+                        <option value="" hidden> Country</option>
+                        <option ng-repeat="country in countries">{{country}}</option>
+                        <span ng-show="loginForm.regCountry.$error.required && registerForm.regCountry.$dirty">Select
+                            country</span>
+                    </select>
+                </div>
+
+                <div class="form-group" style="align-content: center" name="email">
+                    <input name="regEmail" type="email" class="form-control" placeholder="Email" ng-model="regEmail" required ng-minlength="1" style="width:90% auto">
+                    <span ng-show="registerForm.regEmail.$error.required && registerForm.regEmail.$dirty">This is
+                        required! </span>
+                    <span ng-show="registerForm.regEmail.$error.minlength && registerForm.regEmail.$dirty">Minimum
+                        length is 2 </span>
+                    <span ng-show="registerForm.regEmail.$error.email && registerForm.regEmail.$dirty">Please enter
+                        a valid email!</span>
+                </div>
+
+                <div class="form-group">
+                    <input name="regUsername" type="text" class="form-control" aria-describedby="login" ng-model="regUsername" required ng-minlength="3" ng-maxlength="8" placeholder="Username" ng-pattern="/^[a-zA-Z]*$/">
+                    <span ng-show="registerForm.regUsername.$error.required  && registerForm.uregUsernamesername.$dirty">This
+                        is
+                        required! </span>
+                    <span ng-show="registerForm.regUsername.$error.minlength  && registerForm.regUsername.$dirty">Minimum
+                        length is 3! </span>
+                    <span ng-show="registerForm.regUsername.$error.maxlength  && registerForm.regUsername.$dirty">Maximum
+                        length is 8! </span>
+                    <span ng-show="registerForm.regUsername.$error.pattern && registerForm.regUsername.$dirty"> Use only
+                        English letters! </span>
+
+                </div>
+
+                <div class="form-group" style="align-content: center" name="password">
+                    <input name="regPassword" type="password" class="form-control" placeholder="Password" ng-model="regPassword" required ng-minlength="5" ng-maxlength="10" style="width:90% auto" ng-pattern="/^[a-zA-Z0-9]*$/">
+                    <span ng-show="registerForm.regPassword.$error.required && registerForm.regPassword.$dirty">This is
+                        required! </span>
+                    <span ng-show="registerForm.regPassword.$error.minlength && registerForm.regPassword.$dirty">Minimum
+                        length is 5! </span>
+                    <span ng-show="registerForm.regPassword.$error.maxlength && registerForm.regPassword.$dirty">Maximum
+                        length is 10! </span>
+                    <span ng-show="registerForm.regPassword.$error.pattern && registerForm.regPassword.$dirty"> Use only
+                        English letters or numbers! </span>
+                </div>
+
+                <div class="form-group" style="align-content: center">
+                    <input name="regPasswordRepeat" type="password" class="form-control" placeholder="Repeat Password" ng-model="regPasswordRepeat" required ng-minlength="5" style="width:90% auto" ng-pattern="/^[a-zA-Z0-9]*$/">
+                    <span ng-show="registerForm.regPasswordRepeat.$error.required && registerForm.regPasswordRepeat.$dirty">This
+                        is required! </span>
+                    <span ng-show="registerForm.regPasswordRepeat.$error.minlength && registerForm.regPasswordRepeat.$dirty">Minimum
+                        length is 5! </span>
+                    <span ng-show="registerForm.regPasswordRepeat.$error.pattern && registerForm.regPasswordRepeat.$dirty">
+                        Use only English letters or numbers! </span>
+                </div>
+
+                <div class="interestsBox" name="Interest">
+                    <div multiple ng-repeat="interest in categories">
+                        <div>
+                            <input name="interestCheckbox" type="checkbox" value="{{interest}}" style="margin:5px"> {{interest}}
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-form name="questionValidation" ng-model="regQuestionsFill" name="regQuestionsFill">
+                    <div class="form-group" style="align-content: center" id="regQuestions">
+                        <input name="firstQuestion" type="text" class="form-control" placeholder="Question" style="width: 70%" ng-model="firstQuestion" required>
+                        <span ng-show="registerForm.questionValidation.firstQuestion.$error.required && registerForm.questionValidation.firstQuestion.$dirty">This
+                            is required! </span>
+                        <input name="firstAnswer" type="text" class="form-control" placeholder="Answer" ng-model="firstAnswer" required>
+                        <span ng-show="registerForm.questionValidation.firstAnswer.$error.required && registerForm.questionValidation.firstAnswer.$dirty">This
+                            is required! </span>
+                    </div>
+
+                    <div id="regAddQuestion0" class="form-group" style="align-content: center">
+                        <input name="regNewQuestion0" type="text" class="form-control" placeholder="Question" style="width: 70%" ng-model="regNewQuestion0" required>
+                        <span ng-show="registerForm.questionValidation.regNewQuestion0.$error.required && registerForm.questionValidation.regNewQuestion0.$dirty">This
+                            is required! </span>
+                        <input name="regNewAnswer0" type="text" class="form-control" placeholder="Answer" ng-model="regNewAnswer0" required>
+                        <span ng-show="registerForm.questionValidation.regNewAnswer0.$error.required && registerForm.questionValidation.regNewAnswer0.$dirty">This
+                            is required! </span>
+                        <button id="addQuestionButton0" class="btn btn-link" id="addInterest" ng-model="button0" ng-show="currIndex==0" ng-disabled="registerForm.questionValidation.$invalid" ng-click="addQuestion($event)">Add question</button>
+                    </div>
+                    </br>
+                    <button type="submit" id="submit" value="Submit" class="btn btn-secondary"
+                         style="margin: auto; border-radius: 0">Register</button>
+            </form>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-------------------------------------main search screen------ng-disabled="registerForm.$invalid"-------------------------->
+    <div ng-controller="top_user_panel" ng-show="showMain">
+        <div ng-controller="PointsDisplay" class="album py-5 bg-light">
+            <div class="container">
+                <form class="form-inline mt-2 mt-md-0">
+                    <input class="form-control mx-auto" type="text" placeholder="Search" aria-label="Search" ng-model="searchLine" style="width:60%;text-align:center">
+                </form>
+                </br>
+                <div class="row">
+                    <div class="col-md-4 add-shadow" ng-repeat="item in recomendedItems | filter:searchLine" ng-click="setCurrentItemToModal(item)">
+                        <a ng-click="setCurrentItemToModal(item)" data-toggle="modal" data-target="#exampleModalCenter">
+                            <div class="card mb-4 shadow-sm">
+                                <img style="width: 100% ;height: 225px;" ng-src={{item.image[0]}} ng-click="setCurrentItemToModal(item)">
+                                <div class="card-body">
+                                    <p class="card-title">
+                                        <h5>{{item.pointID}}</h5>
+                                    </p>
+                                    <p class="card-text">{{item.desc.substring(0,100)+"..."}}</p>
+
+                        </a>
+                        <hr>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-outline-secondary sharp-button" ng-show="!item.saved" ng-click="item.toggleSaved()">Save</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary sharp-button" ng-show="item.saved" ng-click="item.toggleSaved()">Remove</button>
+
+                            </div>
+                            <small class="text-muted">{{item.ratesCount + " ratings\n"}}</small>
+                            <small class="text-muted">{{item.viewCount + " views"}}</small>
+                        </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-hide="lastSavedPoints.length == 0" type="text" style="text-align: center">
+            <h3 class="ng-binding"> You can check here your last saved points, please add them for your pleasant</h3>
+        </div>
+    </div>
+    </div>
+    </div>
+
+
+    <!------details modal------->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" ng-controller="ModalDisplay">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="exampleModalCenterTitle">Details About: {{modalItem.pointID}}</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src={{modalItem.image[0]}} class="d-block w-100">
+                            </div>
+                            <div class="carousel-item">
+                                <img src={{modalItem.image[1]}} class="d-block w-100">
+                            </div>
+                            <div class="carousel-item">
+                                <img src={{modalItem.image[2]}} class="d-block w-100">
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+
+                <hr>
+                <div class="col-sm-12 ml-auto">
+                    <p style="font-size:14px;color:#888888">{{modalItem.desc}}</p>
+                </div>
+                <hr>
+                <div ng-repeat="review in modalItem.reviews">
+                    <h7>Rating: {{review.num}} </h7>
+                    <h8>Description: {{review.text}}</h8>
+                </div>
+                <hr>
+                <h6 style="text-align: center;">Rate</h6>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="star-rating">
+                                <span class="fa fa-star-o" ng-click="changeValue(1)" ng-if="num_rating>1" style="color: rgb(255, 0, 0)"></span>
+                                <span class="fa fa-star-o" ng-click="changeValue(1)" ng-if="!(num_rating>1)" style="color: rgb(255, 0, 0)"></span>
+                                <span class="fa fa-star-o" ng-click="changeValue(2)" ng-if="num_rating>=2" style="color: rgb(255, 0, 0)"></span>
+                                <span class="fa fa-star-o" ng-click="changeValue(2)" ng-if="!(num_rating>=2)" style="color: #343A40"></span>
+                                <span class="fa fa-star-o" ng-click="changeValue(3)" ng-if="num_rating>=3" style="color: rgb(255, 0, 0)"></span>
+                                <span class="fa fa-star-o" ng-click="changeValue(3)" ng-if="!(num_rating>=3)" style="color: #343A40"></span>
+                                <span class="fa fa-star-o" ng-click="changeValue(4)" ng-if="num_rating>=4" style="color: rgb(255, 0, 0)"></span>
+                                <span class="fa fa-star-o" ng-click="changeValue(4)" ng-if="!(num_rating>=4)" style="color: #343A40"></span>
+                                <span class="fa fa-star-o" ng-click="changeValue(5)" ng-if="num_rating>=5" style="color: rgb(255, 0, 0)"></span>
+                                <span class="fa fa-star-o" ng-click="changeValue(5)" ng-if="!(num_rating>=5)" style="color: #343A40"></span>
+                                <input type="hidden" name="whatever2" class="rating-value" value="1.9">
+                            </div>
+                        </div>
+                    </div>
+                    <textarea ng-model="text_rating" class="form-control mx-auto" style="width: 100%"></textarea>
+                </div>
+                <button type="button" class="btn btn-secondary sharp-button" ng-click="saveRating()" style="width:30%;margin-right:35%;margin-left:35%">Send Rating</button>
+                <hr>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary sharp-button" ng-click="modalItem.upViewvers();" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <!------favorites------->
+    <div ng-controller="top_user_panel" ng-show="showFavorite">
+        <h3 style="text-align: center">Favorites</h3>
+        <div ng-controller="PointsDisplay">
+            <div class="album py-5 bg-light">
+                <div class="container">
+                    <form class="form-inline mt-2 mt-md-0">
+                        <input class="form-control mx-auto" type="text" placeholder="Search" aria-label="Search" ng-model="searchLine" style="width:60%;text-align:center">
+                    </form>
+                    </br>
+                    <div class="row">
+                        <div class="col-md-4 add-shadow" ng-repeat="item in recomendedItems | orderBy: 'userOrder'" ng-if="item.saved" ng-click="setCurrentItemToModal(item)">
+                            <a ng-click="setCurrentItemToModal(item)" data-toggle="modal" data-target="#exampleModalCenter">
+                                <div class="card mb-4 shadow-sm">
+                                    <img style="width: 100% ;height: 225px;" ng-src={{item.image[0]}} ng-click="setCurrentItemToModal(item)">
+                                    <div class="card-body">
+                                        <p class="card-title">
+                                            <h5>{{item.pointID}}</h5>
+                                        </p>
+                                        <p class="card-text">{{item.desc.substring(0,100)+"..."}}</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <hr>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary sharp-button" ng-show="!item.saved" ng-click="item.toggleSaved()">Save</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary sharp-button" ng-show="item.saved" ng-click="item.toggleSaved()">Remove</button>
+                                </div>
+                                <small class="text-muted"><input type="text" ng-model="item.userOrder"
+                                        placeholder={{item.userOrder}} style="width: 25px;text-align: center"></small>
+                                <small class="text-muted"><button type="button"
+                                        class="btn btn-sm btn-outline-secondary sharp-button"
+                                        ng-click="refreshUserOrder()">Set Order</button></small>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!----objectives::-->
+    <!------users------->
+
+    <!------content loader------->
+</body>
+
+<footer>
+    <div class="album py-3">
+        <div class="container">
+            <!--ng repeat start-->
+            <div class="row">
+                <div class="col-md-2 add-shadow mx-auto" ng-repeat="item in rPoints" ng-click="setCurrentItemToModal(item)">
+                    <a ng-click="setCurrentItemToModal(item)" data-toggle="modal" data-target="#exampleModalCenter">
+                        <div class="card mb-2 shadow-sm">
+                            <img style="width: 100% ;height: 100px;" ng-src={{item.image[0]}} ng-click="setCurrentItemToModal(item)">
+                            <div class="card-body">
+                                <p class="card-title">
+                                    <h9>{{item.pointID.substring(0,15)}}</h9>
+                                </p>
+                    </a>
+                    <hr>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-secondary sharp-button" ng-show="!item.saved" ng-click="item.toggleSaved()">Save</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary sharp-button" ng-show="item.saved" ng-click="item.toggleSaved()">Remove</button>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--ng repeat end-->
+</footer>
+
+</html>
